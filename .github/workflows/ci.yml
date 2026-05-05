@@ -6,15 +6,21 @@ on:
   pull_request:
     branches: [ "master" ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
-    name: Build
-    runs-on: ubuntu-latest
+    name: Build for Windows
+    # 改為 Windows 環境，這樣產出的就是 .exe
+    runs-on: windows-latest
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Cache
+      - name: Cache Cargo
         uses: actions/cache@v5
         with:
           path: |
@@ -23,10 +29,23 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ runner.os }}-build-cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
 
       - name: Install Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
 
-      - name: Build
+      - name: Build Release
+        # Windows 環境下同樣使用 cargo build
         run: cargo build --release --verbose
+
+      - name: Upload Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-app-windows-x64
+          # 只抓取 release 資料夾下的 .exe 檔案
+          path: |
+            target/release/*.exe
