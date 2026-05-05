@@ -1,15 +1,15 @@
-# Description
-rpa is a command-line tool used to create and extract from renpy archives (rpa).
+# 描述
+rpa 是一個命令列工具，用於建立及解壓 Ren'Py 封存檔 (rpa)。
 
-The program fully supports v3.0 and v2.0 and reading v3.2.
+本程式完整支援 v3.0 與 v2.0 版本，並支援讀取 v3.2 版本。
 
-## Features
+## 功能特點
 
-- **Fast threaded extraction.** Extract files from multiple archives at the same time using threads. Use `-m` to enable multi-threaded extraction for a single archive by lazy reading file into memory as needed.
-- **Built-in glob pattern support.** Built-in support for glob pattern matching allows adding and removing files, and extracting and updating archives using patterns.
-- **Minimal memory footprint.** rpa does not read archive into memory. It copies segments from the archive into specified location (extracting file or temporary archive depending on command).
+- **快速執行緒解壓縮**：利用執行緒同時從多個封存檔中提取檔案。使用 `-m` 選項可針對單一封存檔啟用多執行緒解壓，並根據需求將檔案延遲讀取至記憶體中。
+- **內建 Glob 模式支援**：內建支援 Glob 模式比對，允許使用特定模式來新增、刪除檔案，以及提取或更新封存檔。
+- **極低的記憶體佔用**：rpa 不會將整個封存檔讀入記憶體。它會將封存檔的片段複製到指定位置（視指令而定，可能是提取出的檔案或暫存封存檔）。
 
-## Usage
+## 用法
 
 This and the following examples are focused on [rpa][rpa], the commandline tool. For information on [rpalib][rpalib] check out the [examples][examples].
 
